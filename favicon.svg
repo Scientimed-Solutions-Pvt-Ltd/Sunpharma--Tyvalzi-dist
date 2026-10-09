@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="tyvalziGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ED2027"/>
+      <stop offset="100%" stop-color="#F37028"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded pill -->
+  <rect width="64" height="64" rx="16" fill="#211A1A"/>
+  <!-- Artery curve / T bar -->
+  <path d="M12 18 C 18 12, 34 14, 52 20 C 50 25, 42 24, 36 23 L 36 48 C 36 51, 33 53, 30 53 C 27 53, 24 51, 24 48 L 24 22 C 18 22, 14 21, 12 18 Z" fill="url(#tyvalziGrad)"/>
+  <!-- Red blood cell accents -->
+  <circle cx="48" cy="28" r="4" fill="#ED2027"/>
+  <circle cx="53" cy="33" r="3" fill="#F37028"/>
+</svg>
