@@ -1,0 +1,89 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Handle Authorization Header in Apache environment
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # If requested resource is an existing file or directory, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Fallback all other routes to index.html for React SPA client-side routing
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Disable Directory Browsing
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+# Default Charset
+AddDefaultCharset UTF-8
+
+# Compression (mod_deflate)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/javascript \
+                                application/json \
+                                application/rss+xml \
+                                application/vnd.ms-fontobject \
+                                application/x-font \
+                                application/x-font-opentype \
+                                application/x-font-otf \
+                                application/x-font-truetype \
+                                application/x-font-ttf \
+                                application/x-javascript \
+                                application/xhtml+xml \
+                                application/xml \
+                                font/opentype \
+                                font/otf \
+                                font/ttf \
+                                font/woff \
+                                font/woff2 \
+                                image/svg+xml \
+                                image/x-icon \
+                                text/css \
+                                text/html \
+                                text/javascript \
+                                text/plain \
+                                text/xml
+</IfModule>
+
+# Caching & Browser Cache Control
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Never cache index.html so users always get fresh SPA releases
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # Cache hashed static assets for 1 year
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Prevent caching of index.html
+  <Files "index.html">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </Files>
+
+  # Security Headers
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
